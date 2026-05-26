@@ -17,39 +17,39 @@ def registrar_usuario() -> None:
 
     # ID único
     while True:
-        id_usuario = pedir_campo_obligatorio(msg.CAMPO_ID)
+        id_usuario = pedir_campo_obligatorio(msg.campo_id)
         if any(u["id"] == id_usuario for u in datos["usuarios"]):
-            print(msg.ERR_ID_DUPLICADO_USUARIO)
+            print(msg.user_duplicated)
         else:
             break
 
-    nombres   = pedir_campo_obligatorio(msg.CAMPO_NOMBRES)
-    apellidos = pedir_campo_obligatorio(msg.CAMPO_APELLIDOS)
+    nombres   = pedir_campo_obligatorio(msg.campo_nombre)
+    apellidos = pedir_campo_obligatorio(msg.campo_apellidos)
     telefono  = pedir_campo_obligatorio(
-        msg.CAMPO_TELEFONO,
+        msg.campo_telefono,
         es_telefono_valido,
-        msg.ERR_TELEFONO_INVALIDO
+        msg.telefono_invalid
     )
 
     # E-mail único y válido
     while True:
         email = pedir_campo_obligatorio(
-            msg.CAMPO_EMAIL,
+            msg.campo_email,
             es_email_valido,
-            msg.ERR_EMAIL_INVALIDO
+            msg.correo_invalid
         )
         if any(u["email"] == email for u in datos["usuarios"]):
-            print(msg.ERR_EMAIL_DUPLICADO)
+            print(msg.correo_duplicated)
         else:
             break
 
-    direccion = pedir_campo_obligatorio(msg.CAMPO_DIRECCION)
+    direccion = pedir_campo_obligatorio(msg.campo_direccion)
     rol       = pedir_campo_obligatorio(
-        msg.CAMPO_ROL,
+        msg.campo_rol,
         rol_valido,
-        msg.ERR_ROL_INVALIDO
+        msg.rol_invalid
     ).lower()
-    password  = pedir_campo_obligatorio(msg.CAMPO_PASSWORD)
+    password  = pedir_campo_obligatorio(msg.campo_password)
 
     nuevo = {
         "id":        id_usuario,
@@ -63,7 +63,7 @@ def registrar_usuario() -> None:
     }
     datos["usuarios"].append(nuevo)
     guardar_datos(datos)
-    print(msg.OK_USUARIO_REGISTRADO)
+    print(msg.user_registred)
 
 
 # ── Listar ────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ def listar_usuarios() -> None:
     imprimir_encabezado("Listado de Usuarios")
     datos = cargar_datos()
     if not datos["usuarios"]:
-        print(msg.ERR_NO_HAY_USUARIOS)
+        print(msg.user_noregistred)
         return
     imprimir_tabla_usuarios(datos["usuarios"])
 
@@ -86,7 +86,7 @@ def actualizar_usuario() -> None:
     id_buscar = input("  Ingrese el ID del usuario a actualizar: ").strip()
     usuario = next((u for u in datos["usuarios"] if u["id"] == id_buscar), None)
     if not usuario:
-        print(msg.ERR_USUARIO_NO_ENCONTRADO)
+        print(msg.user_nofind)
         return
 
     _imprimir_ficha_usuario(usuario)
@@ -101,16 +101,16 @@ def actualizar_usuario() -> None:
             return
         usuario[campo] = valor
 
-    actualizar_campo("nombres",   msg.CAMPO_NOMBRES)
-    actualizar_campo("apellidos", msg.CAMPO_APELLIDOS)
-    actualizar_campo("telefono",  msg.CAMPO_TELEFONO,  es_telefono_valido, msg.ERR_TELEFONO_INVALIDO)
-    actualizar_campo("email",     msg.CAMPO_EMAIL,     es_email_valido,    msg.ERR_EMAIL_INVALIDO)
-    actualizar_campo("direccion", msg.CAMPO_DIRECCION)
-    actualizar_campo("rol",       msg.CAMPO_ROL,       rol_valido,         msg.ERR_ROL_INVALIDO)
-    actualizar_campo("password",  msg.CAMPO_PASSWORD)
+    actualizar_campo("nombres",   msg.campo_nombre)
+    actualizar_campo("apellidos", msg.campo_apellidos)
+    actualizar_campo("telefono",  msg.campo_telefono,  es_telefono_valido, msg.telefono_invalid)
+    actualizar_campo("email",     msg.campo_email,     es_email_valido,    msg.correo_invalid)
+    actualizar_campo("direccion", msg.campo_direccion)
+    actualizar_campo("rol",       msg.campo_rol,       rol_valido,         msg.rol_invalid)
+    actualizar_campo("password",  msg.campo_password)
 
     guardar_datos(datos)
-    print(msg.OK_USUARIO_ACTUALIZADO)
+    print(msg.contact_update)
 
 
 # ── Eliminar ──────────────────────────────────────────────────
@@ -122,22 +122,22 @@ def eliminar_usuario() -> None:
     id_buscar = input("  Ingrese el ID del usuario a eliminar: ").strip()
     usuario = next((u for u in datos["usuarios"] if u["id"] == id_buscar), None)
     if not usuario:
-        print(msg.ERR_USUARIO_NO_ENCONTRADO)
+        print(msg.user_nofind)
         return
 
     # Proteger al administrador principal
     if usuario["id"] == "0000":
-        print(msg.ERR_NO_PUEDE_ELIMINAR_ADMIN)
+        print(msg.nodelete_admin)
         return
 
     _imprimir_ficha_usuario(usuario)
 
-    if confirmar(msg.CONFIRMAR_ELIMINAR):
+    if confirmar(msg.confirm_delete):
         datos["usuarios"] = [u for u in datos["usuarios"] if u["id"] != id_buscar]
         guardar_datos(datos)
-        print(msg.OK_USUARIO_ELIMINADO)
+        print(msg.user_deleted)
     else:
-        print(msg.OK_OPERACION_CANCELADA)
+        print(msg.operacion_cancelada)
 
 # ── Utilidad local ────────────────────────────────────────────
 

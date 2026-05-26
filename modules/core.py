@@ -1,7 +1,7 @@
-from modules import messages as msg
+import modules.messages as msg
+import modules.crud_contactos as cc
+import modules.crud_user  as cu
 from modules.utils import cargar_datos, imprimir_encabezado
-from modules import crud_contactos as cc
-from modules import crud_usuarios   as cu
 
 MAX_INTENTOS = 3
 
@@ -13,13 +13,13 @@ def iniciar_sesion() -> dict | None:
     o None si se superan los intentos máximos.
     """
     imprimir_encabezado("")
-    print(msg.LOGIN_BIENVENIDA)
+    print(msg.login_bienvenida)
     print()
 
     intentos = 0
     while intentos < MAX_INTENTOS:
-        email    = input(msg.LOGIN_USUARIO).strip().lower()
-        password = input(msg.LOGIN_PASSWORD).strip()
+        email    = input(msg.login_user).strip().lower()
+        password = input(msg.login_password).strip()
 
         datos = cargar_datos()
         usuario = next(
@@ -29,16 +29,16 @@ def iniciar_sesion() -> dict | None:
         )
 
         if usuario:
-            print(msg.LOGIN_EXITOSO.format(usuario["nombres"]))
+            print(msg.login_exitoso.format(usuario["nombres"]))
             return usuario
 
         intentos += 1
         restantes = MAX_INTENTOS - intentos
-        print(msg.LOGIN_FALLIDO)
+        print(msg.login_fail)
         if restantes > 0:
             print(f"  Intentos restantes: {restantes}")
 
-    print(msg.LOGIN_BLOQUEADO)
+    print(msg.login_block)
     return None
 
 
@@ -46,8 +46,8 @@ def iniciar_sesion() -> dict | None:
 
 def menu_contactos() -> None:
     while True:
-        print(msg.MENU_CONTACTOS)
-        opcion = input(msg.OPCION_SELECCIONAR).strip()
+        print(msg.menu_contact)
+        opcion = input(msg.select_option).strip()
 
         if opcion == "1":
             cc.registrar_contacto()
@@ -62,7 +62,7 @@ def menu_contactos() -> None:
         elif opcion == "6":
             break
         else:
-            print(msg.OPCION_INVALIDA)
+            print(msg.invalid_option)
 
         input("\n  Presione Enter para continuar...")
 
@@ -71,8 +71,8 @@ def menu_contactos() -> None:
 
 def menu_usuarios() -> None:
     while True:
-        print(msg.MENU_USUARIOS)
-        opcion = input(msg.OPCION_SELECCIONAR).strip()
+        print(msg.menu_user)
+        opcion = input(msg.select_option).strip()
 
         if opcion == "1":
             cu.registrar_usuario()
@@ -85,7 +85,7 @@ def menu_usuarios() -> None:
         elif opcion == "5":
             break
         else:
-            print(msg.OPCION_INVALIDA)
+            print(msg.invalid_option)
 
         input("\n  Presione Enter para continuar...")
 
@@ -103,8 +103,8 @@ def menu_principal(usuario: dict) -> None:
         imprimir_encabezado(f"  Sesión: {usuario['nombres']} {usuario['apellidos']}  |  Rol: {usuario['rol']}")
 
         if es_admin:
-            print(msg.MENU_PRINCIPAL_ADMIN)
-            opcion = input(msg.OPCION_SELECCIONAR).strip()
+            print(msg.menu_admin)
+            opcion = input(msg.select_option).strip()
             if opcion == "1":
                 menu_contactos()
             elif opcion == "2":
@@ -113,14 +113,14 @@ def menu_principal(usuario: dict) -> None:
                 print("\n  Sesión cerrada. Hasta pronto.\n")
                 break
             else:
-                print(msg.OPCION_INVALIDA)
+                print(msg.invalid_option)
         else:
-            print(msg.MENU_PRINCIPAL_OPERARIO)
-            opcion = input(msg.OPCION_SELECCIONAR).strip()
+            print(msg.menu_operario)
+            opcion = input(msg.select_option).strip()
             if opcion == "1":
                 menu_contactos()
             elif opcion == "2":
                 print("\n  Sesión cerrada. Hasta pronto.\n")
                 break
             else:
-                print(msg.OPCION_INVALIDA)
+                print(msg.invalid_option)

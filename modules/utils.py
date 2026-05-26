@@ -139,10 +139,10 @@ def imprimir_tabla_usuarios(usuarios: list) -> None:
 # ── Encabezado ────────────────────────────────────────────────
 
 def imprimir_encabezado(titulo: str) -> None:
-    from modules.messages import SEPARADOR, APP_TITULO
+    from modules.messages import separador, app_titulo
     print()
-    print("  " + SEPARADOR)
-    print(f"  {APP_TITULO}")
+    print("  " + separador)
+    print(f"  {app_titulo}")
     if titulo:
         print(f"  {titulo}")
-    print("  " + SEPARADOR)
+    print("  " + separador)

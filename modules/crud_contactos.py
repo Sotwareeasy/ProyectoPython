@@ -17,27 +17,27 @@ def registrar_contacto() -> None:
 
     # ID
     while True:
-        id_contacto = pedir_campo_obligatorio(msg.CAMPO_ID)
+        id_contacto = pedir_campo_obligatorio(msg.campo_id)
         if any(c["id"] == id_contacto for c in datos["contactos"]):
-            print(msg.ERR_ID_DUPLICADO_CONTACTO)
+            print(msg.contact_duplicate)
         else:
             break
 
-    nombres   = pedir_campo_obligatorio(msg.CAMPO_NOMBRES)
-    apellidos = pedir_campo_obligatorio(msg.CAMPO_APELLIDOS)
+    nombres   = pedir_campo_obligatorio(msg.campo_nombre)
+    apellidos = pedir_campo_obligatorio(msg.campo_apellidos)
     telefono  = pedir_campo_obligatorio(
-        msg.CAMPO_TELEFONO,
+        msg.campo_telefono,
         es_telefono_valido,
-        msg.ERR_TELEFONO_INVALIDO
+        msg.telefono_invalid
     )
     email = pedir_campo_obligatorio(
-        msg.CAMPO_EMAIL,
+        msg.campo_email, 
         es_email_valido,
-        msg.ERR_EMAIL_INVALIDO
+        msg.correo_invalid
     )
-    direccion = pedir_campo_obligatorio(msg.CAMPO_DIRECCION)
-    tipo      = pedir_campo_obligatorio(msg.CAMPO_TIPO)
-    notas     = input(msg.CAMPO_NOTAS).strip()
+    direccion = pedir_campo_obligatorio(msg.campo_direccion)
+    tipo      = pedir_campo_obligatorio(msg.campo_tipo)
+    notas     = input(msg.campo_notas).strip()
 
     nuevo = {
         "id":        id_contacto,
@@ -51,7 +51,7 @@ def registrar_contacto() -> None:
     }
     datos["contactos"].append(nuevo)
     guardar_datos(datos)
-    print(msg.OK_CONTACTO_REGISTRADO)
+    print(msg.user_registred)
 
 
 # ── Listar ────────────────────────────────────────────────────
@@ -60,7 +60,7 @@ def listar_contactos() -> None:
     imprimir_encabezado("Listado de Contactos")
     datos = cargar_datos()
     if not datos["contactos"]:
-        print(msg.ERR_NO_HAY_CONTACTOS)
+        print(msg.contact_noresgistred)
         return
     imprimir_tabla_contactos(datos["contactos"])
 
@@ -71,8 +71,8 @@ def buscar_contacto() -> None:
     imprimir_encabezado("Buscar Contacto")
 
     while True:
-        print(msg.MENU_BUSCAR_CONTACTO)
-        opcion = input(msg.OPCION_SELECCIONAR).strip()
+        print(msg.search_contact)
+        opcion = input(msg.select_option).strip()
 
         if opcion == "1":
             _buscar_por_id()
@@ -83,7 +83,7 @@ def buscar_contacto() -> None:
         elif opcion == "4":
             break
         else:
-            print(msg.OPCION_INVALIDA)
+            print(msg.invalid_option)
 
 
 def _buscar_por_id() -> None:
@@ -116,7 +116,7 @@ def _buscar_por_tipo() -> None:
 
 def _mostrar_resultados(resultado: list) -> None:
     if not resultado:
-        print(msg.ERR_CONTACTO_NO_ENCONTRADO)
+        print(msg.contact_nofind)
     else:
         imprimir_tabla_contactos(resultado)
 
@@ -130,7 +130,7 @@ def actualizar_contacto() -> None:
     id_buscar = input("  Ingrese el ID del contacto a actualizar: ").strip()
     contacto = next((c for c in datos["contactos"] if c["id"] == id_buscar), None)
     if not contacto:
-        print(msg.ERR_CONTACTO_NO_ENCONTRADO)
+        print(msg.contact_nofind)
         return
 
     imprimir_ficha_contacto(contacto)
@@ -145,16 +145,16 @@ def actualizar_contacto() -> None:
             return
         contacto[campo] = valor
 
-    actualizar_campo("nombres",   msg.CAMPO_NOMBRES)
-    actualizar_campo("apellidos", msg.CAMPO_APELLIDOS)
-    actualizar_campo("telefono",  msg.CAMPO_TELEFONO,  es_telefono_valido, msg.ERR_TELEFONO_INVALIDO)
-    actualizar_campo("email",     msg.CAMPO_EMAIL,     es_email_valido,    msg.ERR_EMAIL_INVALIDO)
-    actualizar_campo("direccion", msg.CAMPO_DIRECCION)
-    actualizar_campo("tipo",      msg.CAMPO_TIPO)
-    actualizar_campo("notas",     msg.CAMPO_NOTAS)
+    actualizar_campo("nombres",   msg.campo_nombre)
+    actualizar_campo("apellidos", msg.campo_apellidos)
+    actualizar_campo("telefono",  msg.campo_telefono,  es_telefono_valido, msg.telefono_invalid)
+    actualizar_campo("email",     msg.campo_email,     es_email_valido,    msg.correo_invalid)
+    actualizar_campo("direccion", msg.campo_direccion)
+    actualizar_campo("tipo",      msg.campo_tipo)
+    actualizar_campo("notas",     msg.campo_notas)
 
     guardar_datos(datos)
-    print(msg.OK_CONTACTO_ACTUALIZADO)
+    print(msg.contact_update)
 
 
 # ── Eliminar ──────────────────────────────────────────────────
@@ -166,14 +166,14 @@ def eliminar_contacto() -> None:
     id_buscar = input("  Ingrese el ID del contacto a eliminar: ").strip()
     contacto = next((c for c in datos["contactos"] if c["id"] == id_buscar), None)
     if not contacto:
-        print(msg.ERR_CONTACTO_NO_ENCONTRADO)
+        print(msg.contact_noresgistred)
         return
 
     imprimir_ficha_contacto(contacto)
 
-    if confirmar(msg.CONFIRMAR_ELIMINAR):
+    if confirmar(msg.confirm_delete):
         datos["contactos"] = [c for c in datos["contactos"] if c["id"] != id_buscar]
         guardar_datos(datos)
-        print(msg.OK_CONTACTO_ELIMINADO)
+        print(msg.contact_deleted)
     else:
-        print(msg.OK_OPERACION_CANCELADA)
+        print(msg.operacion_cancelada)
