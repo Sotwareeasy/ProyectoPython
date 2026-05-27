@@ -11,5 +11,26 @@
       "rol": "admin"
     }
   ],
-  "contactos": []
+  "contactos": [
+    {
+      "id": "1101758956",
+      "nombres": "Fabian Uribe",
+      "apellidos": "Rodriguez",
+      "telefono": "3006380202",
+      "email": "feur2010@hotmail.com",
+      "direccion": "calle 45 0 172",
+      "tipo": "generic",
+      "notas": "valido"
+    },
+    {
+      "id": "1101",
+      "nombres": "fabian uribe",
+      "apellidos": "rod",
+      "telefono": "30063802021",
+      "email": "feur@hotmail.com",
+      "direccion": "calle 45 1 15",
+      "tipo": "asda",
+      "notas": "021"
+    }
+  ]
 }

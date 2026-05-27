@@ -16,7 +16,8 @@ menu_admin = """
 Administrador ACME Solutions
 1. Contactos
 2. Usuarios
-3. Salir
+3. Auditoria de datos
+4. Salir
 """
 ## Menu de usuario
 menu_operario= """

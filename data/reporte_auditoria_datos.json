@@ -1,0 +1,29 @@
+{
+    "fecha_auditoria": "2026-05-26 20:22:24",
+    "estado_general": "SE ENCONTRARON ERRORES",
+    "usuarios_con_errores": [],
+    "contactos_con_errores": [
+        {
+            "id": "1101758956",
+            "nombre": "Fabian Uribe Rodriguez",
+            "errores": [
+                "Tipo inválido: 'generic'. Permitidos: ['aliado', 'cliente', 'empleado', 'otro', 'personal', 'proveedor']."
+            ]
+        },
+        {
+            "id": "1101",
+            "nombre": "fabian uribe rod",
+            "errores": [
+                "Tipo inválido: 'asda'. Permitidos: ['aliado', 'cliente', 'empleado', 'otro', 'personal', 'proveedor']."
+            ]
+        }
+    ],
+    "resumen": {
+        "total_usuarios": 1,
+        "total_contactos": 2,
+        "usuarios_con_errores": 0,
+        "contactos_con_errores": 2,
+        "usuarios_con_email_duplicado": 0,
+        "contactos_con_id_duplicado": 0
+    }
+}

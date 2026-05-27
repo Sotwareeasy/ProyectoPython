@@ -35,7 +35,13 @@ def no_vacio(valor: str) -> bool:
 
 
 def rol_valido(rol: str) -> bool:
+    rol = pedir_campo(
+    prompt="Ingrese el rol (admin / operario): ",
+    validador=rol_valido,
+    mensaje_error=" Rol inválido. Solo se permite 'admin' o 'operario'.")
     return rol.strip().lower() in ("admin", "operario")
+
+
 
 
 # ── Entrada de usuario ────────────────────────────────────────
@@ -80,7 +86,7 @@ def imprimir_tabla_contactos(contactos: list) -> None:
     """Imprime una tabla formateada de contactos."""
     if not contactos:
         return
-    cab = f"  {'ID':<15} {'Nombre completo':<28} {'Teléfono':<15} {'E-mail':<28} {'Tipo':<12}"
+    cab = f"  {'ID':<15} {'Nombre completo':<28} {'Teléfono':<10} {'E-mail':<28} {'Tipo':<12}"
     print()
     print("  " + "-" * 100)
     print(cab)

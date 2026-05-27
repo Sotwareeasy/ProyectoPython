@@ -2,6 +2,7 @@ import modules.messages as msg
 import modules.crud_contactos as cc
 import modules.crud_user  as cu
 from modules.utils import cargar_datos, imprimir_encabezado
+from modules import auditoria as au
 
 MAX_INTENTOS = 3
 
@@ -110,6 +111,9 @@ def menu_principal(usuario: dict) -> None:
             elif opcion == "2":
                 menu_usuarios()
             elif opcion == "3":
+                au.auditar_datos()
+                input("\n  Presione Enter para continuar...")
+            elif opcion == "4":
                 print("\n  Sesión cerrada. Hasta pronto.\n")
                 break
             else:
